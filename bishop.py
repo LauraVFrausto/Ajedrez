@@ -8,7 +8,8 @@ class Bishop(Piece):
   def valid_moves( self, board):
       
     possible_moves=[]
-      
+    
+    #cambios
     #up rigth move
     new_x,new_y = self.x+1,self.y+1
     while new_x<=7 and new_y<=7:
