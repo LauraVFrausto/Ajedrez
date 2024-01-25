@@ -7,7 +7,7 @@ from rook import Rook
 from piece import Piece
 
 
-#Functions################################
+#Functions
 
 #Function that will switch turns once the user has made their move.
 def change_turn(turn):
