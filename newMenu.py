@@ -2,7 +2,7 @@ from bishop import Bishop
 from horse import Horse
 from pawn import Pawn
 from queen import Queen
-#from king import King
+from king import King
 from rook import Rook
 from piece import Piece
 
@@ -77,9 +77,9 @@ def move(XCurrent, YCurrent, XNew, YNew, board, turn, whiteKing, blackKing):
 
 def king_jaque(turn, board, WhiteKing, BlackKing):
   if turn == "White":
-    return board[change_number(WhiteKing[1])][change_letter(WhiteKing[0])].is_jaque() #Checar
+    return board[WhiteKing[0]][WhiteKing[1]].check(board) #Checar
   else:
-    return board[change_number(BlackKing[1])][change_letter(BlackKing[0])].is_jaque() #Checar
+    return board[BlackKing[0]][BlackKing[1]].check(board) #Checar
   
 def check_mate(whiteKing, blackKing, whitePieces, blackPieces, turn, board):
   if turn == "White":
@@ -99,7 +99,7 @@ def check_mate(whiteKing, blackKing, whitePieces, blackPieces, turn, board):
 
         move(xCurrent, yCurrent, xNew, yNew, board, turn, whiteKing, blackKing)
 
-        if !(board[yKing][xKing].check(board)):
+        if not(board[yKing][xKing].check(board)):
           move(xNew, yNew, xCurrent, yCurrent, board, turn, whiteKing, blackKing)
           board[yNew][xNew] = capturedPiece
           return False
@@ -125,7 +125,7 @@ def check_mate(whiteKing, blackKing, whitePieces, blackPieces, turn, board):
 
         move(xCurrent, yCurrent, xNew, yNew, board, turn, whiteKing, blackKing)
 
-        if !(board[yKing][xKing].check(board)):
+        if not(board[yKing][xKing].check(board)):
           move(xNew, yNew, xCurrent, yCurrent, board, turn, whiteKing, blackKing)
           board[yNew][xNew] = capturedPiece
           return False
@@ -139,7 +139,7 @@ def check_mate(whiteKing, blackKing, whitePieces, blackPieces, turn, board):
 def drowned(whitePieces, blackPieces, turn, board):
   if turn == "White":
     for piece in whitePieces:
-      if piece.valid_moves(board) > 0:
+      if len(piece.valid_moves(board)) > 0:
         return False
     return True
   
@@ -200,7 +200,7 @@ def castle(XCurrent, YCurrent, XNew, YNew, board, turn, whiteKing, blackKing): #
 board = [[None for _ in range(8)] for _ in range(8)]
 
 #-------------------------WHITE------------------------
-#board[7][4] = King("White", 4, 7)
+board[7][4] = King("White", 4, 7)
 board[7][3] = Queen("White", 3, 7)
 board[7][1] = Horse("White", 1, 7)
 board[7][6] = Horse("White", 6, 7)
@@ -218,7 +218,7 @@ board[6][6] = Pawn("White", 6, 6)
 board[6][7] = Pawn("White", 7, 6)
 
 #-------------------------BLACK------------------------
-#board[0][4] = King("Black", 4, 0)
+board[0][4] = King("Black", 4, 0)
 board[0][3] = Queen("Black", 3, 0)
 board[0][1] = Horse("Black", 1, 0)
 board[0][6] = Horse("Black", 6, 0)
@@ -238,7 +238,7 @@ board[1][7] = Pawn("Black", 7, 1)
 #-------------------------WHITE------------------------
 # We create an list of 16 elements which will be our white pieces.
 whitePieces= [
-  #board[7][4],
+  board[7][4],
   board[7][3],
   board[7][1],
   board[7][6],
@@ -279,7 +279,7 @@ whitePices.append(Pawn("White", 6, 1))
 
 #-------------------------BLACK------------------------
 blackPieces = [
-  #board[0][4],
+  board[0][4],
   board[0][3],
   board[0][1],
   board[0][6],
@@ -348,6 +348,10 @@ while menuOption!=1:
   print("  a    b    c    d    e    f    g    h")
   print("Your turn ", turn)
   menuOption=int(input("\n\t1. Surrender \n\t2. Offer a draw \n\t3. Move a piece\n "))
+
+  print(board[7][4].tag, board[0][4].tag)
+  print(whiteKing, blackKing)
+
   # Surrender
   if menuOption == 1:
     print("Congratulations, ", change_turn(turn), ", you have won.")

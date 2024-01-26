@@ -10,7 +10,6 @@ class King(Piece):
   def valid_moves( self, board):
       possible_moves=[]
       
-      print("hola Laura")
       #right moves
       if self.x+1<=7:
             
@@ -213,13 +212,13 @@ class King(Piece):
     for i in twos:
         for j in ones:
           if self.y+i<=7 and self.y+i>=0 and self.x+i>=0 and self.x+i<=7:
-            if board[self.y+i][self.x+j].color != self.color and board[self.y+i][self.x+j].tag=="h":
+            if board[self.y+i][self.x+j].color != self.color and board[self.y+i][self.x+j].tag=="h": # Checar
                 return True
                 
     for i in twos:
         for j in ones:
           if self.y+i<=7 and self.y+i>=0 and self.x+i>=0 and self.x+i<=7:
-            if board[self.y+j][self.x+i].color != self.color and board[self.y+i][self.x+j].tag=="h":
+            if board[self.y+j][self.x+i].color != self.color and board[self.y+i][self.x+j].tag=="h": #Checa
                 return True
   
   
