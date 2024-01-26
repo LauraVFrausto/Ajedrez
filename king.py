@@ -10,7 +10,6 @@ class King(Piece):
   def valid_moves( self, board):
       possible_moves=[]
       
-      print("hola Laura")
       #right moves
       if self.x+1<=7:
             
