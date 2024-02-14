@@ -2,7 +2,7 @@ from bishop import Bishop
 from horse import Horse
 from pawn import Pawn
 from queen import Queen
-#from king import King
+from king import King
 from rook import Rook
 from piece import Piece
 
@@ -200,7 +200,7 @@ def castle(XCurrent, YCurrent, XNew, YNew, board, turn, whiteKing, blackKing): #
 board = [[None for _ in range(8)] for _ in range(8)]
 
 #-------------------------WHITE------------------------
-#board[7][4] = King("White", 4, 7)
+board[7][4] = King("White", 4, 7)
 board[7][3] = Queen("White", 3, 7)
 board[7][1] = Horse("White", 1, 7)
 board[7][6] = Horse("White", 6, 7)
@@ -218,7 +218,7 @@ board[6][6] = Pawn("White", 6, 6)
 board[6][7] = Pawn("White", 7, 6)
 
 #-------------------------BLACK------------------------
-#board[0][4] = King("Black", 4, 0)
+board[0][4] = King("Black", 4, 0)
 board[0][3] = Queen("Black", 3, 0)
 board[0][1] = Horse("Black", 1, 0)
 board[0][6] = Horse("Black", 6, 0)
