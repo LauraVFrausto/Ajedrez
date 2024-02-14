@@ -4,7 +4,8 @@ class Rook(Piece):
   def __init__(self,color,x,y) :
       
     Piece.__init__(self,"r",color, x, y )
-
+    self.cont = 0
+    
   def valid_moves( self, board):
     possible_moves=[]
     
