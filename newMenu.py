@@ -349,9 +349,6 @@ while menuOption!=1:
   print("Your turn ", turn)
   menuOption=int(input("\n\t1. Surrender \n\t2. Offer a draw \n\t3. Move a piece\n "))
 
-  print(board[7][4].tag, board[0][4].tag)
-  print(whiteKing, blackKing)
-
   # Surrender
   if menuOption == 1:
     print("Congratulations, ", change_turn(turn), ", you have won.")
