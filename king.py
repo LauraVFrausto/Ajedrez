@@ -212,13 +212,15 @@ class King(Piece):
     for i in twos:
         for j in ones:
           if self.y+i<=7 and self.y+i>=0 and self.x+i>=0 and self.x+i<=7:
-            if board[self.y+i][self.x+j].color != self.color and board[self.y+i][self.x+j].tag=="h": # Checar
+            if board[self.y+i][self.x+j]:
+              if board[self.y+i][self.x+j].color != self.color and board[self.y+i][self.x+j].tag=="h": # Checar
                 return True
                 
     for i in twos:
         for j in ones:
           if self.y+i<=7 and self.y+i>=0 and self.x+i>=0 and self.x+i<=7:
-            if board[self.y+j][self.x+i].color != self.color and board[self.y+i][self.x+j].tag=="h": #Checa
+            if board[self.y+i][self.x+j]:
+              if board[self.y+j][self.x+i].color != self.color and board[self.y+i][self.x+j].tag=="h": #Checa
                 return True
   
   
