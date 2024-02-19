@@ -23,20 +23,24 @@ class Pawn(Piece):
         possible_moves.append((self.y+dir, self.x))
     
     #cuidado en comer en direccion adecuada
-    if board[self.y+dir][self.x+1]:
-        if board[self.y+dir][self.x+1].color != self.color:
-            possible_moves.append((self.y+dir, self.x+1))
-        
-    if board[self.y+dir][self.x-1]: 
-        if board[self.y+dir][self.x-1].color != self.color:
-            possible_moves.append((self.y+dir, self.x-1)) 
+    if self.y+dir <=7 and self.y+dir >=0 and self.x+1 <=7:
+        if board[self.y+dir][self.x+1]:
+            if board[self.y+dir][self.x+1].color != self.color:
+                possible_moves.append((self.y+dir, self.x+1))
+
+    if self.y+dir <=7 and self.y+dir >=0 and self.x-1>=0:   
+        if board[self.y+dir][self.x-1]: 
+            if board[self.y+dir][self.x-1].color != self.color:
+                possible_moves.append((self.y+dir, self.x-1)) 
     
     #Comida de paso
-    if board[self.y][self.x+1] and board[self.y][self.x+1].color != self.color and board[self.y][self.x+1].tag == "p" and board[self.y][self.x+1].enPassant:
-        possible_moves.append((self.y+1, self.x+1))
+    if self.x+1<=7:   
+        if board[self.y][self.x+1] and board[self.y][self.x+1].color != self.color and board[self.y][self.x+1].tag == "p" and board[self.y][self.x+1].enPassant:
+            possible_moves.append((self.y+dir, self.x+1))
     
-    if board[self.y][self.x-1] and board[self.y][self.x-1].color != self.color and board[self.y][self.x-1].tag == "p" and board[self.y][self.x-1].enPassant:
-        possible_moves.append((self.y+1, self.x-1))
+    if self.x-1>=0: 
+        if board[self.y][self.x-1] and board[self.y][self.x-1].color != self.color and board[self.y][self.x-1].tag == "p" and board[self.y][self.x-1].enPassant:
+            possible_moves.append((self.y+dir, self.x-1))
     
     
                 

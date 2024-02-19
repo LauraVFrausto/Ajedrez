@@ -50,13 +50,19 @@ def promote_pawn(XNew, YNew, board):
 def en_passant(XCurrent, YCurrent, XNew, YNew, board):
   board[YNew][XNew] = board[YCurrent][XCurrent]
   board[YCurrent][XCurrent] = None
+  
   if board[YNew][XNew].color == "White":
     board[YNew + 1][XNew] = None
   else:
     board[YNew - 1][XNew] = None
 
-def move(XCurrent, YCurrent, XNew, YNew, board, turn, whiteKing, blackKing):
-  if board[YNew][XNew] != None:
+  pawn_enPassant = []
+
+def move(XCurrent, YCurrent, XNew, YNew, board, turn, whiteKing, blackKing, en_passantMove):
+  if en_passantMove:
+    en_passant(XCurrent, YCurrent, XNew, YNew, board)
+
+  elif board[YNew][XNew] != None:
     board[YNew][XNew] = None
     board[YNew][XNew] = board[YCurrent][XCurrent]
     board[YCurrent][XCurrent] = None
@@ -145,7 +151,7 @@ def drowned(whitePieces, blackPieces, turn, board):
   
   elif turn == "Black":
     for piece in blackPieces:
-      if piece.valid_moves(board) > 0:
+      if len(piece.valid_moves(board)) > 0:
         return False
     return True
 
@@ -325,9 +331,11 @@ turn = "White" # It will tell us whose turn it is to play
 whiteKing = (7, 4) # White king's position
 blackKing = (0, 4) # Black king's position
 pawn_enPassant = []
+en_passantMove=False #Checar si el movimiento es una comida de paso
 isCheck = False
 
 while menuOption!=1:
+  print(pawn_enPassant)
   if pawn_enPassant:
     if pawn_enPassant[-1] == turn:
       board[pawn_enPassant[1]][pawn_enPassant[0]].enPassant =False
@@ -419,6 +427,14 @@ while menuOption!=1:
         if abs(YCurrent - YNew) == 2 and currentPiece.cont == 0:
           currentPiece.enPassant = True
           pawn_enPassant = [XNew, YNew, turn]
+
+        if turn == "White" and abs(XCurrent-XNew) > 0 and [XNew, YNew+1] == pawn_enPassant[0:2]:
+          print("holis")
+          en_passantMove=True
+        
+        elif turn == "Black" and abs(XCurrent-XNew) > 0 and [XNew, YNew-1] == pawn_enPassant[0:2]:
+          print("adios")
+          en_passantMove=True
         
         currentPiece.cont = 1
        
@@ -426,8 +442,8 @@ while menuOption!=1:
         castle(XCurrent, YCurrent, XNew, YNew, board, turn, whiteKing, blackKing)
         break
 
-      move(XCurrent, YCurrent, XNew, YNew, board, turn, whiteKing, blackKing)
-
+      move(XCurrent, YCurrent, XNew, YNew, board, turn, whiteKing, blackKing, en_passantMove)
+      en_passantMove = False
       break
 
   else:
