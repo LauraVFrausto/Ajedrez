@@ -335,14 +335,6 @@ en_passantMove=False #Checar si el movimiento es una comida de paso
 isCheck = False
 
 while menuOption!=1:
-  print(pawn_enPassant)
-  if pawn_enPassant:
-    if pawn_enPassant[-1] == turn:
-      board[pawn_enPassant[1]][pawn_enPassant[0]].enPassant =False
-      pawn_enPassant = []
-
-
-
   # Print board
   for i in range(8):
     for j in range(8):
@@ -409,7 +401,7 @@ while menuOption!=1:
       YNew = change_number(newPosition[1]) # New Y position 
 
 
-      print(currentPiece.valid_moves(board))
+      #print(currentPiece.valid_moves(board))
       if (YNew, XNew) not in currentPiece.valid_moves(board):
         print("No valid position")
         continue
@@ -422,6 +414,10 @@ while menuOption!=1:
       else: 
         isCheck = False
         change_turn(turn) 
+       
+      if currentPiece.tag == "k" and abs(XCurrent -XNew) > 1: #Checar 
+        castle(XCurrent, YCurrent, XNew, YNew, board, turn, whiteKing, blackKing)
+        break
 
       if currentPiece.tag == "p":
         if abs(YCurrent - YNew) == 2 and currentPiece.cont == 0:
@@ -429,21 +425,21 @@ while menuOption!=1:
           pawn_enPassant = [XNew, YNew, turn]
 
         if turn == "White" and abs(XCurrent-XNew) > 0 and [XNew, YNew+1] == pawn_enPassant[0:2]:
-          print("holis")
           en_passantMove=True
         
         elif turn == "Black" and abs(XCurrent-XNew) > 0 and [XNew, YNew-1] == pawn_enPassant[0:2]:
-          print("adios")
           en_passantMove=True
-        
+      
         currentPiece.cont = 1
-       
-      if currentPiece.tag == "k" and abs(XCurrent -XNew) > 1: #Checar 
-        castle(XCurrent, YCurrent, XNew, YNew, board, turn, whiteKing, blackKing)
-        break
 
+      if pawn_enPassant:
+        if pawn_enPassant[-1] != turn:
+          board[pawn_enPassant[1]][pawn_enPassant[0]].enPassant =False
+          pawn_enPassant = []
+      print(en_passantMove)
       move(XCurrent, YCurrent, XNew, YNew, board, turn, whiteKing, blackKing, en_passantMove)
       en_passantMove = False
+
       break
 
   else:
