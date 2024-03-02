@@ -16,7 +16,7 @@ class Pawn(Piece):
 
     #Two steps in the first move
     #Revisar direccion de avance de peon
-    if self.cont==0 and not board[self.y+dir][self.x] and not board[self.y+(2*dir)][self.x] :
+    if self.cont==0 and self.y+(2*dir)<=7 and self.y+(2*dir)>=0 and not board[self.y+dir][self.x] and not board[self.y+(2*dir)][self.x]:
         possible_moves.append((self.y+(2*dir), self.x))
     
     if not board[self.y+dir][self.x]:

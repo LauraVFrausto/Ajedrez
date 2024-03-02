@@ -6,7 +6,6 @@ from king import King
 from rook import Rook
 from piece import Piece
 
-
 #Functions
 
 #Function that will switch turns once the user has made their move.
@@ -26,25 +25,21 @@ def change_number(numero):
   return 7 - (int(numero)-1)
 
 # Convert a pawn into a piece of higher value.
-def promote_pawn(XNew, YNew, board):
-  pawnOption = int(input("Choose a piece:\n\t1. Queen\n\t2. Rook\n\t3. Bishop\n\t4. Knight\n"))
+def promote_pawn(XNew, YNew, board, color):
+  options={1: Queen(color, XNew, YNew),
+            2: Rook(color, XNew, YNew),
+            3: Bishop(color, XNew, YNew),
+            4: Horse(color, XNew, YNew)}
+
+  pawnOption = int(input("Choose a piece:\n\t1. Queen\n\t2. Rook\n\t3. Bishop\n\t4. Horse\n"))
 
   while pawnOption not in [1,2,3,4]:
     pawnOption= int(input("Invalid option. Choose a piece: "))
 
-  if board[YNew][XNew].color == "White" and YNew==0:
-    options={1: Queen("White", XNew, YNew),
-             2: Rook("White", XNew, YNew),
-             3: Bishop("White", XNew, YNew),
-             4: Horse("White", XNew, YNew)}
-    board[YNew][XNew] = options[pawnOption]
-    
-  elif board[YNew][XNew].color == "Black" and YNew==0:
-    options={1: Queen("Black", XNew, YNew),
-             2: Rook("Black", XNew, YNew),
-             3: Bishop("Black", XNew, YNew),
-             4: Horse("Black", XNew, YNew)}
-    board[YNew][XNew] = options[pawnOption]
+  board[YNew][XNew] = None
+  board[YNew][XNew] = options[pawnOption]
+  board[YCurrent][XCurrent] = None
+
 
 # A function that allows capturing a pawn that has moved two squares in chess.
 def en_passant(XCurrent, YCurrent, XNew, YNew, board):
@@ -156,21 +151,21 @@ def drowned(whitePieces, blackPieces, turn, board):
     return True
 
 def castle(XCurrent, YCurrent, XNew, YNew, board, turn, whiteKing, blackKing): #Checar
-  #Mover al rey
+  #Move the king
   board[YNew][XNew] = None
   board[YNew][XNew] = board[YCurrent][XCurrent]
   board[YCurrent][XCurrent] = None
   
-  #Mover a la torre 
+  #Move the rook
   if turn == "White":
-    if XCurrent - XNew < 0: #enroque corto
+    if XCurrent - XNew < 0: #short castling
       board[7][5] = None
       board[7][5] = board[7][7]
       board[7][7] = None 
       board[7][5].x = 5
       board[7][5].y = 7
 
-    else: #enroque largo 
+    else: #long castling
       board[7][3] = None
       board[7][3] = board[7][0]
       board[7][0] = None 
@@ -178,14 +173,14 @@ def castle(XCurrent, YCurrent, XNew, YNew, board, turn, whiteKing, blackKing): #
       board[7][3].y = 7
   
   elif turn == "Black":
-    if XCurrent - XNew < 0: #enroque largo
+    if XCurrent - XNew < 0: #long castling
       board[0][3] = None
       board[0][3] = board[0][0]
       board[0][0] = None 
       board[0][3].x = 3
       board[0][3].y = 0
 
-    else: #enroque corto 
+    else: #short castling
       board[0][5] = None
       board[0][5] = board[0][7]
       board[0][7] = None 
@@ -243,6 +238,7 @@ board[1][7] = Pawn("Black", 7, 1)
 
 #-------------------------WHITE------------------------
 # We create an list of 16 elements which will be our white pieces.
+
 whitePieces= [
   board[7][4],
   board[7][3],
@@ -263,24 +259,6 @@ whitePieces= [
 ]
 
 whitePieces= set(whitePieces)
-"""
-#whitePices.append(King("White", 4, 7))
-whitePices.append(Queen("White", 3, 7))
-whitePices.append(Horse("White", 1, 7))
-whitePices.append(Horse("White", 6, 7))
-whitePices.append(Bishop("White", 2, 7))
-whitePices.append(Bishop("White", 5, 7))
-whitePices.append(Rook("White", 0, 7))
-whitePices.append(Rook("White", 7, 7))
-whitePices.append(Pawn("White", 0, 6))
-whitePices.append(Pawn("White", 1, 6))
-whitePices.append(Pawn("White", 2, 6))
-whitePices.append(Pawn("White", 3, 6))
-whitePices.append(Pawn("White", 4, 6))
-whitePices.append(Pawn("White", 5, 6))
-whitePices.append(Pawn("White", 6, 6))
-whitePices.append(Pawn("White", 6, 1))
-"""
 
 
 #-------------------------BLACK------------------------
@@ -300,27 +278,10 @@ blackPieces = [
   board[1][4],
   board[1][5],
   board[1][6],
-  board[1][7],
+  board[1][7]
 ]
 
 blackPieces = set(blackPieces)
-
-"""blackPieces.append(King("Black", 4, 0))
-blackPieces.append(Queen("Black", 3, 0))
-blackPieces.append(Horse("Black", 1, 0))
-blackPieces.append(Horse("Black", 6, 0))
-blackPieces.append(Bishop("Black", 2, 0))
-blackPieces.append(Bishop("Black", 5, 0))
-blackPieces.append(Rook("Black", 0, 0))
-blackPieces.append(Rook("Black", 7, 0))
-blackPieces.append(Pawn("Black", 0, 1))
-blackPieces.append(Pawn("Black", 1, 1))
-blackPieces.append(Pawn("Black", 2, 1))
-blackPieces.append(Pawn("Black", 3, 1))
-blackPieces.append(Pawn("Black", 4, 1))
-blackPieces.append(Pawn("Black", 5, 1))
-blackPieces.append(Pawn("Black", 6, 1))
-blackPieces.append(Pawn("Black", 7, 1))"""
 
 print("-----------------------------")
 print("|          Welcome          |")
@@ -372,7 +333,7 @@ while menuOption!=1:
     if isCheck and check_mate(whiteKing, blackKing, whitePieces, blackPieces, turn, board): #Checar
       print("Checkmate, you have lost ", turn)
       break
-
+    
     if drowned(whitePieces, blackPieces, turn, board): #Checar
       print("Drowned")
 
@@ -401,7 +362,6 @@ while menuOption!=1:
       YNew = change_number(newPosition[1]) # New Y position 
 
 
-      #print(currentPiece.valid_moves(board))
       if (YNew, XNew) not in currentPiece.valid_moves(board):
         print("No valid position")
         continue
@@ -420,6 +380,9 @@ while menuOption!=1:
         break
 
       if currentPiece.tag == "p":
+        if (currentPiece.color == "White" and YNew==0) or (currentPiece.color == "Black" and YNew==7):
+          promote_pawn(XNew, YNew, board, currentPiece.color)
+          break #Cambio
         if abs(YCurrent - YNew) == 2 and currentPiece.cont == 0:
           currentPiece.enPassant = True
           pawn_enPassant = [XNew, YNew, turn]
@@ -439,6 +402,7 @@ while menuOption!=1:
       print(en_passantMove)
       move(XCurrent, YCurrent, XNew, YNew, board, turn, whiteKing, blackKing, en_passantMove)
       en_passantMove = False
+
 
       break
 

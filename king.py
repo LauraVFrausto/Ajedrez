@@ -66,14 +66,14 @@ class King(Piece):
       
       else:
         
-        if (board [self.y][self.x].cont == 0 and board[0][-1].cont == 0 and board[7][-1].tag=="r" and 
+        if (board[7][-1]!=None and board[7][-1].tag=="r" and board [self.y][self.x].cont == 0 and board[0][-1].cont == 0 and 
             not self.check(board,self.x , self.y) and not self.check(board,self.x +1, self.y) and not self.check(board,self.x +2, self.y) and 
-            not board[self.y][self.x+1] and not board[self.y][self.x+2] ):
+            not board[self.y][self.x+1] and not board[self.y][self.x+2] ):#Cambio, se puso primero la etiqueta y checar que sea difernete de None
             
           possible_moves.append(self.x+2,self.y)
       
       #Long castle
-        if (board [self.y][self.x].cont == 0 and board[0][0].cont == 0 and board[0][0].tag=="r" and 
+        if (board[0][0]!=None and board [self.y][self.x].cont == 0 and board[0][0].cont == 0 and board[0][0].tag=="r" and 
             not self.check(board,self.x , self.y) and not self.check(board,self.x -1, self.y) and not self.check(board,self.x - 2, self.y) and 
             not board[self.y][self.x-1] and not board[self.y][self.x-2] ):
             
