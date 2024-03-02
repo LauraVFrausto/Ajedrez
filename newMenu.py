@@ -292,7 +292,7 @@ turn = "White" # It will tell us whose turn it is to play
 whiteKing = (7, 4) # White king's position
 blackKing = (0, 4) # Black king's position
 pawn_enPassant = []
-en_passantMove=False #Checar si el movimiento es una comida de paso
+en_passantMove=False #To check if the move is an en passant capture
 isCheck = False
 
 while menuOption!=1:
